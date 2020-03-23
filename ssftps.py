@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 
 # Stupidly Sipmple FTP Server by D.Sánchez
@@ -107,7 +107,7 @@ class MainWindow(Gtk.Window):
         myTextView = Gtk.TextView()
         myTextView.set_editable( False )
         #Declare a class level TextBuffer to log to.
-        self.myTextBuffer = myTextView.get_buffer()
+        self.cTextBuffer = myTextView.get_buffer()
         #Put it all into our scrollable container
         myScroller.add( myTextView )
         self.add( myScroller )
@@ -168,10 +168,11 @@ class MainWindow(Gtk.Window):
         if self.cEntryPORT.get_text()!=myConfig.PORT:
             #YES - Save the new port (no error checking is done here)
             myConfig.PORT = self.cEntryPORT.get_text()
+        self.cTextBuffer.insert_at_cursor( ">>> Applying new configuration <<<" )
 
     def logToTextBuffer( self, tmpMessage ):
         #Insert the logged text into the local textbuffer
-        self.myTextBuffer.insert_at_cursor( tmpMessage+"\n" )
+        self.cTextBuffer.insert_at_cursor( tmpMessage+"\n" )
 
     def configButtonClicked( self, widget ):
         #Position the popover
@@ -193,7 +194,7 @@ class MainWindow(Gtk.Window):
             self.cThread.start()
         else:
             #NO - Inform the user that we are stopping the server
-            self.myTextBuffer.insert_at_cursor( ">>> stopping FTP server on "+myConfig.IPV4+":"+myConfig.PORT+" <<<\n" )
+            self.cTextBuffer.insert_at_cursor( ">>> stopping FTP server on "+myConfig.IPV4+":"+myConfig.PORT+" <<<\n" )
             #Stop it!
             self.cServer.stop()
 
@@ -242,7 +243,7 @@ myWindow = MainWindow()
 myWindow.connect("destroy", Gtk.main_quit)
 
 #Print the welcome message
-myWindow.myTextBuffer.set_text( "================\n" + "  ssftps Version " + FTP_Server.cVersion + "\n================\nWritten by D.Sanchez and published under the EU-GPL\n" )
+myWindow.cTextBuffer.set_text( "================\n" + "  ssftps Version " + FTP_Server.cVersion + "\n================\nWritten by D.Sanchez and published under the EU-GPL\n" )
 
 #Configure log level
 logging.basicConfig(level=myConfig.LOGLEVEL)
@@ -251,7 +252,7 @@ logging.basicConfig(level=myConfig.LOGLEVEL)
 myWindow.show_all()
 
 #Create a handler to control the log-message output
-myHandler = LogHandler( myWindow.myTextBuffer )
+myHandler = LogHandler( myWindow.cTextBuffer )
 
 #Link the handler to default logger
 logging.getLogger('pyftpdlib').addHandler(myHandler)

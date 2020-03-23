@@ -7,8 +7,9 @@ This python script is based on Giampaolo Rodola's pyftplib Library and aims to
 bring this program to anybody whithout the need for a command line nor python knowledge.
 It is written on top of the GTK3 Toolkit running consequently on any major distro.
 
-### Requisites:
-On any ubuntu-ish distro, you may install the library with the following command line:
+### Pre-Requisites:
+Python3. OK, that was an ovious one...
+pyftpdlib. On any ubuntu-ish distro, you may install the library with the following command line:
 ```
 sudo apt install python3-pyftpdlib
 ```
@@ -38,6 +39,6 @@ Setting the loglevel to anything higher than INFO as well as getting an ERROR,
 causes the program to crash with a segfault. I will have to look into that more closely.
 
 ### Based on
-`pyftplib` library by Giampaolo Rodola 
+`pyftpdlib` library by Giampaolo Rodola on [GitHub](https://github.com/giampaolo/pyftpdlib)
 
-`pyGObject` library 
+`pyGObject` library
