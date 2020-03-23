@@ -242,7 +242,7 @@ myWindow = MainWindow()
 myWindow.connect("destroy", Gtk.main_quit)
 
 #Print the welcome message
-myWindow.myTextBuffer.set_text( "================\n" + "  ssftp Version " + FTP_Server.cVersion + "\n================\nWritten by D.Sanchez and published under the EU-GPL\n" )
+myWindow.myTextBuffer.set_text( "================\n" + "  ssftps Version " + FTP_Server.cVersion + "\n================\nWritten by D.Sanchez and published under the EU-GPL\n" )
 
 #Configure log level
 logging.basicConfig(level=myConfig.LOGLEVEL)
