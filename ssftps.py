@@ -192,14 +192,14 @@ class MainWindow(Gtk.Window):
             #Start the server-thread
             self.cThread.start()
         else:
-            #NO - Inrom the user that we are stopping the server
+            #NO - Inform the user that we are stopping the server
             self.myTextBuffer.insert_at_cursor( ">>> stopping FTP server on "+myConfig.IPV4+":"+myConfig.PORT+" <<<\n" )
             #Stop it!
             self.cServer.stop()
 
 class LogHandler(logging.Handler):
     """
-        This is a redefined class from logging.Handler with the emit method redefined.
+        This is a redefined class from logging.Handler with the emit method overridden.
     """
     def __init__(self, tmpTextBuffer ):
         #Initialize the superclass
