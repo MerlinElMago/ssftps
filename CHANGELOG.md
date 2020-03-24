@@ -4,3 +4,6 @@
 `23 MAR 2020`
   Commented the code extensively
   Wrote the README
+
+`24 MAR 2020`
+  Fixed a missing newline and completed author information.

@@ -25,8 +25,8 @@ These values are:
 
 * Port: 2121
 * User: anonymous
-* Pass: none
-* Dir : . (that is the local directory the program is run from)
+* Pass: none ( this is an empty string, not the word none )
+* Dir : . ( that is the local directory the program is run from )
 
 The anonymous user has no write permissions though. This may be fine with you, but if you want to be able to explore your filesystem, upload and change files, you have to add a user. To accomplish this, just push the config button prior to starting the server:
 

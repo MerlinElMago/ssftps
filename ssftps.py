@@ -168,7 +168,7 @@ class MainWindow(Gtk.Window):
         if self.cEntryPORT.get_text()!=myConfig.PORT:
             #YES - Save the new port (no error checking is done here)
             myConfig.PORT = self.cEntryPORT.get_text()
-        self.cTextBuffer.insert_at_cursor( ">>> Applying new configuration <<<" )
+        self.cTextBuffer.insert_at_cursor( ">>> Applying new configuration <<<\n" )
 
     def logToTextBuffer( self, tmpMessage ):
         #Insert the logged text into the local textbuffer
@@ -243,7 +243,7 @@ myWindow = MainWindow()
 myWindow.connect("destroy", Gtk.main_quit)
 
 #Print the welcome message
-myWindow.cTextBuffer.set_text( "================\n" + "  ssftps Version " + FTP_Server.cVersion + "\n================\nWritten by D.Sanchez and published under the EU-GPL\n" )
+myWindow.cTextBuffer.set_text( "================\n" + "  ssftps Version " + FTP_Server.cVersion + "\n================\nPublished under the EU-GPL\n© 2020 D.Sánchez\nhttps://www.dsanchez.net/\n" )
 
 #Configure log level
 logging.basicConfig(level=myConfig.LOGLEVEL)
