@@ -10,8 +10,7 @@
 
 import gi, os, threading, logging
 gi.require_version('Gtk', '3.0')
-
-from gi.repository import Gtk, Gio
+from gi.repository import Gtk, Gio, GObject
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
@@ -21,7 +20,7 @@ class FTP_Server:
         A FTP Server Class to be launched whithin a non blocking thread
     """
     #Declare version number of the server-class
-    cVersion = "1.0"
+    cVersion = "1.0-4"
 
     #Class constructor
     def __init__( self ):
@@ -115,12 +114,18 @@ class MainWindow(Gtk.Window):
         self.cEntryPORT = Gtk.Entry()
         self.cEntryPORT.set_text( myConfig.PORT )
         self.cEntryUSER = Gtk.Entry()
-        self.cEntryUSER.set_text( 'anonymous' )
         self.cEntryPASS = Gtk.Entry()
-        self.cEntryPASS.set_text( '' )
-        self.cEntryPASS.set_visibility( False ) #This will make it a password input
         self.cEntryPATH = Gtk.Entry()
-        self.cEntryPATH.set_text( '.' )
+
+        if not myConfig.USERS:
+            self.cEntryUSER.set_text( 'anonymous' )
+            self.cEntryPASS.set_text( '' )
+            self.cEntryPATH.set_text( '.' )
+        else:
+            self.cEntryUSER.set_text( myConfig.USERS[0]['user'] )
+            self.cEntryPASS.set_text( myConfig.USERS[0]['pass'] )
+            self.cEntryPATH.set_text( myConfig.USERS[0]['path'] )
+        self.cEntryPASS.set_visibility( False ) #This will make it a password input
         self.cEntryPATH.set_editable( False ) #We only want to permit walid paths, so we just make it non-editable
         self.cEntryPATH.set_icon_from_icon_name(Gtk.EntryIconPosition.SECONDARY, "folder");
         self.cEntryPATH.connect( "icon-press", self.openFileDialogFromPopover )
@@ -168,11 +173,11 @@ class MainWindow(Gtk.Window):
         if self.cEntryPORT.get_text()!=myConfig.PORT:
             #YES - Save the new port (no error checking is done here)
             myConfig.PORT = self.cEntryPORT.get_text()
-        self.cTextBuffer.insert_at_cursor( ">>> Applying new configuration <<<\n" )
+        self.cTextBuffer.insert( self.cTextBuffer.get_end_iter(), ">>> Applying new configuration <<<\n" )
 
     def logToTextBuffer( self, tmpMessage ):
         #Insert the logged text into the local textbuffer
-        self.cTextBuffer.insert_at_cursor( tmpMessage+"\n" )
+        self.cTextBuffer.insert( self.cTextBuffer.get_end_iter(), tmpMessage+"\n" )
 
     def configButtonClicked( self, widget ):
         #Position the popover
@@ -194,7 +199,7 @@ class MainWindow(Gtk.Window):
             self.cThread.start()
         else:
             #NO - Inform the user that we are stopping the server
-            self.cTextBuffer.insert_at_cursor( ">>> stopping FTP server on "+myConfig.IPV4+":"+myConfig.PORT+" <<<\n" )
+            self.cTextBuffer.insert( self.cTextBuffer.get_end_iter(), ">>> stopping FTP server on "+myConfig.IPV4+":"+myConfig.PORT+" <<<\n" )
             #Stop it!
             self.cServer.stop()
 
@@ -211,8 +216,10 @@ class LogHandler(logging.Handler):
     def emit( self, tmpMessage ):
         #Store the formattet message
         tmpMessage = self.format( tmpMessage )
+        #Wait GTK to be idle and print log message
+        GObject.idle_add(self.cTextBuffer.insert, self.cTextBuffer.get_end_iter(), tmpMessage + "\n")
         #Send the log message to the textbuffer
-        self.cTextBuffer.insert_at_cursor( tmpMessage + "\n" )
+        #self.cTextBuffer.insert( self.cTextBuffer.get_end_iter(), tmpMessage + "\n" )
 
 class ServerConfiguration():
     """
@@ -223,10 +230,11 @@ class ServerConfiguration():
         self.IPV4 = os.popen('hostname --all-ip-addresses | cut -d " " -f1').read().rstrip("\n\r")
         #We define a default port which is available to the user (port 21 can't be listened on by the unprivileged user)
         self.PORT = "2121"
-        #Default loglevel. Please be aware that for some reason a higher loglevel than this will result in a segfault)
-        self.LOGLEVEL = logging.INFO
+        #Default loglevel.
+        self.LOGLEVEL = logging.DEBUG
         #Although only one user van be defined through the interface, you may add more "default users here"
-        #This is a list containing a disctionary with the following items: {'user':'','pass':'','path':}
+        #This is a list containing a dictionary with the following items: {'user':'','pass':'','path':}
+        #All users of this table, are added with FULL PRIVILEGES!
         self.USERS = []
 
 
@@ -248,14 +256,14 @@ myWindow.cTextBuffer.set_text( "================\n" + "  ssftps Version " + FTP_
 #Configure log level
 logging.basicConfig(level=myConfig.LOGLEVEL)
 
-#Show Windows on screen
-myWindow.show_all()
-
 #Create a handler to control the log-message output
 myHandler = LogHandler( myWindow.cTextBuffer )
 
 #Link the handler to default logger
 logging.getLogger('pyftpdlib').addHandler(myHandler)
+
+#Show Windows on screen
+myWindow.show_all()
 
 #Main Loop
 Gtk.main()

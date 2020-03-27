@@ -8,11 +8,15 @@ bring this program to anybody whithout the need for a command line nor python kn
 It is written on top of the GTK3 Toolkit running consequently on any major distro.
 
 ### Pre-Requisites:
-Python3. OK, that was an ovious one...
-pyftpdlib. On any ubuntu-ish distro, you may install the library with the following command line:
+*These pre-requisites are just to be installed if you choose the manual installation, if on the other hand, you install the packet via apt, then the dependencies are taken care of automatically.*
+· Python3. OK, that was an ovious one...
+· pyftpdlib. On any ubuntu-ish distro, you may install the library with the following command line:
 ```
 sudo apt install python3-pyftpdlib
 ```
+
+###Install
+You may install the package via an undigned DEB package available in the releases section, or you may install the file manually. The script shall be stored under `usr/local/bin/` so it may be executed from everywhere, but if you have another preference, that's fine. The script doesn't *HAVE* to be stored under this directory, it will work just fine elsewhere. If you choose to install the script manually, the please be aware that you might need to generate a `*.desktop` file manually.
 
 ### How does it work?
 When you open the program, you are presented with this screen:
@@ -39,6 +43,6 @@ Setting the loglevel to anything higher than INFO as well as getting an ERROR,
 causes the program to crash with a segfault. I will have to look into that more closely.
 
 ### Based on
-`pyftpdlib` library by Giampaolo Rodola on [GitHub](https://github.com/giampaolo/pyftpdlib)
+`pyftpdlib` library by Giampaolo Rodola available on [GitHub](https://github.com/giampaolo/pyftpdlib)
 
-`pyGObject` library
+`pyGObject` library by the GNOME Project available on [Github](https://github.com/GNOME/pygobject)
