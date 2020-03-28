@@ -15,8 +15,8 @@ It is written on top of the GTK3 Toolkit running consequently on any major distr
 sudo apt install python3-pyftpdlib
 ```
 
-###Install
-You may install the package via an undigned DEB package available in the releases section, or you may install the file manually. The script shall be stored under `usr/local/bin/` so it may be executed from everywhere, but if you have another preference, that's fine. The script doesn't *HAVE* to be stored under this directory, it will work just fine elsewhere. If you choose to install the script manually, the please be aware that you might need to generate a `*.desktop` file manually.
+### Install
+You may install the package via an unsigned DEB package available in the releases section, or you may install the file manually. The script shall be stored under `usr/local/bin/` so it may be executed from everywhere, but if you have another preference, that's fine. The script doesn't *HAVE* to be stored under this directory, it will work just fine elsewhere. If you choose to install the script manually, the please be aware that you might need to generate a `*.desktop` file manually.
 
 ### How does it work?
 When you open the program, you are presented with this screen:
