@@ -54,23 +54,7 @@ class FTP_Server:
     def add_user( self, tmpUser,tmpPasswd, tmpPath, tmpPrivileges='elradfmwMT' ):
         #Add a user with all read write priveleges, unless otherwise specified
         self.authorizer.add_user( str( tmpUser ), str( tmpPasswd ), str( tmpPath ), perm=str( tmpPrivileges ) )
-"""
-        Extract from API documentation (for quick reference)
-
-        Read permissions:
-            "e" = change directory (CWD, CDUP commands)
-            "l" = list files (LIST, NLST, STAT, MLSD, MLST, SIZE commands)
-            "r" = retrieve file from the server (RETR command)
-
-        Write permissions:
-            "a" = append data to an existing file (APPE command)
-            "d" = delete file or directory (DELE, RMD commands)
-            "f" = rename file or directory (RNFR, RNTO commands)
-            "m" = create directory (MKD command)
-            "w" = store a file to the server (STOR, STOU commands)
-            "M" = change file mode / permission (SITE CHMOD command) New in 0.7.0
-            "T" = change file modification time (SITE MFMT command) New in 1.5.3
-"""
+        #Check out permissions at https://pyftpdlib.readthedocs.io/en/latest/api.html#pyftpdlib.authorizers.DummyAuthorizer
 
 class MainWindow(Gtk.Window):
     """
