@@ -13,6 +13,7 @@ It is written on top of the GTK3 Toolkit running consequently on any major distr
 *These pre-requisites are just to be installed if you choose the manual installation, if on the other hand, you install the packet via apt, then the dependencies are taken care of automatically.*
 · Python3. OK, that was an ovious one...
 · pyftpdlib. On any ubuntu-ish distro, you may install the library with the following command line:
+
 ```
 sudo apt install python3-pyftpdlib
 ```
