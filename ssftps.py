@@ -20,11 +20,11 @@ class FTP_Server:
         A FTP Server Class to be launched whithin a non blocking thread
     """
     #Declare version number of the server-class
-    cVersion = "1.0-4"
+    cVersion = "1.0-5"
 
     #Class constructor
     def __init__( self ):
-        #Create an atuhorizer...
+        #Create an authorizer...
         self.cAuthorizer = DummyAuthorizer()
         #Create a FTPHandler ( required for FTPServer )
         self.cHandler = FTPHandler
@@ -41,7 +41,7 @@ class FTP_Server:
         else:
             #NO - Iterate over userlist
             for tmpUser in myConfig.USERS:
-                self.cAuthorizer.add_user( tmpUser['user'], tmpUser['pass'], tmpUser['path'] )
+                self.cAuthorizer.add_user( tmpUser['user'], tmpUser['pass'], tmpUser['path'], "elradfmwM" )
         #Instantiate FTPServer
         self.cServer = FTPServer( ( myConfig.IPV4, myConfig.PORT ) , self.cHandler )
         #Run the server
@@ -51,8 +51,8 @@ class FTP_Server:
         #Stop the server
         self.cServer.close_all()
 
-    def add_user( self, tmpUser,tmpPasswd, tmpPath, tmpPrivileges='elradfmwMT' ):
-        #Add a user with all read write priveleges, unless otherwise specified
+    def add_user( self, tmpUser, tmpPasswd, tmpPath, tmpPrivileges="elradfmwM" ):
+        #Add a user with all read write privileges, unless otherwise specified
         self.authorizer.add_user( str( tmpUser ), str( tmpPasswd ), str( tmpPath ), perm=str( tmpPrivileges ) )
         #Check out permissions at https://pyftpdlib.readthedocs.io/en/latest/api.html#pyftpdlib.authorizers.DummyAuthorizer
 
@@ -110,13 +110,13 @@ class MainWindow(Gtk.Window):
             self.cEntryPASS.set_text( myConfig.USERS[0]['pass'] )
             self.cEntryPATH.set_text( myConfig.USERS[0]['path'] )
         self.cEntryPASS.set_visibility( False ) #This will make it a password input
-        self.cEntryPATH.set_editable( False ) #We only want to permit walid paths, so we just make it non-editable
+        self.cEntryPATH.set_editable( False ) #We only want to permit valid paths, so we just make it non-editable
         self.cEntryPATH.set_icon_from_icon_name(Gtk.EntryIconPosition.SECONDARY, "folder");
         self.cEntryPATH.connect( "icon-press", self.openFileDialogFromPopover )
         #Create a Popover
         self.cPopover = Gtk.Popover()
         self.cPopover.set_border_width( 10 )
-        #Put all element inside a Box
+        #Put all elements inside a Box
         verticalBox = Gtk.Box( orientation=Gtk.Orientation.VERTICAL )
         verticalBox.pack_start( Gtk.Label("Port"), False, True, 3 )
         verticalBox.pack_start( self.cEntryPORT, False, True, 3 )
@@ -126,7 +126,7 @@ class MainWindow(Gtk.Window):
         verticalBox.pack_start( self.cEntryPASS, False, True, 3 )
         verticalBox.pack_start( Gtk.Label("Path"), False, True, 3 )
         verticalBox.pack_start( self.cEntryPATH, False, True, 3 )
-        #Pack the boxk into out Popover
+        #Pack the box into our Popover
         self.cPopover.add( verticalBox )
         self.cPopover.connect( "closed", self.popoverClosed )
         self.cPopover.set_position(Gtk.PositionType.BOTTOM)
@@ -171,7 +171,7 @@ class MainWindow(Gtk.Window):
         self.cPopover.popup()
 
     def onoffSwitchChanged( self, widget, state ):
-        #Is the server to be switchen on?
+        #Is the server to be switched on?
         if state==True:
             #YES - Instantiate the server
             self.cServer = FTP_Server()
@@ -246,7 +246,7 @@ myHandler = LogHandler( myWindow.cTextBuffer )
 #Link the handler to default logger
 logging.getLogger('pyftpdlib').addHandler(myHandler)
 
-#Show Windows on screen
+#Show Window on screen
 myWindow.show_all()
 
 #Main Loop
